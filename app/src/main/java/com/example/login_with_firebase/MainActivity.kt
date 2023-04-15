@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         authViewModel.user.observe(this) { user ->
