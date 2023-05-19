@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/signInFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login.SignInFragment">
@@ -44,9 +45,9 @@
 
     <EditText
         android:id="@+id/passwordEditText"
-        android:layout_marginStart="8dp"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:autofillHints="emailAddress"
         android:hint="password@1234"
@@ -59,14 +60,20 @@
         android:id="@+id/signInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="Sign In"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="120dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
-        app:layout_constraintVertical_bias="0.315" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:layout_marginStart="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/signInButton"
+        app:layout_constraintStart_toEndOf="@+id/signInButton" />
 
     <ImageView
         android:id="@+id/imageView"

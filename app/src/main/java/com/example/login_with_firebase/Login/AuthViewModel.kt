@@ -26,4 +26,8 @@ class AuthViewModel : ViewModel() {
         authRepository.signOut()
         _user.value = null
     }
+
+    fun checkCurrentUser():Boolean{
+        return authRepository.checkCurrentUser()
+    }
 }

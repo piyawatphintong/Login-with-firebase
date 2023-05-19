@@ -25,6 +25,14 @@ class AuthRepository {
         return resultLiveData
     }
 
+    fun checkCurrentUser():Boolean{
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser !=null){
+            return true
+        }
+        return false
+    }
+
     fun signOut() {
         firebaseAuth.signOut()
     }

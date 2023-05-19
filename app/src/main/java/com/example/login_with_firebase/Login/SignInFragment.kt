@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.login_with_firebase.databinding.FragmentSignInBinding
+import com.google.android.material.snackbar.Snackbar
+import java.util.InputMismatchException
 
 class SignInFragment : Fragment() {
 
@@ -17,6 +19,13 @@ class SignInFragment : Fragment() {
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (authViewModel.checkCurrentUser()) {
+            reload()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -24,12 +33,21 @@ class SignInFragment : Fragment() {
 
         binding = FragmentSignInBinding.inflate(inflater, container, false)
         binding.signInButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
-            authViewModel.signIn(email, password)
+            try {
+                val email = binding.emailEditText.text.toString()
+                val password = binding.passwordEditText.text.toString()
+                authViewModel.signIn(email, password)
+            } catch (e: InputMismatchException) {
+                Snackbar.make(
+                    binding.signInFragment,
+                    "Please add Input to email and password", Snackbar.LENGTH_LONG
+                ).show()
+            }
         }
 
         return binding.root
     }
 
+    private fun reload() {
+    }
 }
