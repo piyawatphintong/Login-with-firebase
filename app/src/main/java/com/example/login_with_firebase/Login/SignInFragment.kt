@@ -1,5 +1,6 @@
 package com.example.login_with_firebase.Login
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.login_with_firebase.databinding.FragmentSignInBinding
 import com.google.android.material.snackbar.Snackbar
+import java.lang.Exception
 import java.util.InputMismatchException
 
 class SignInFragment : Fragment() {
@@ -16,7 +18,7 @@ class SignInFragment : Fragment() {
     private lateinit var binding: FragmentSignInBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
     }
 
     override fun onStart() {
@@ -43,6 +45,17 @@ class SignInFragment : Fragment() {
                     "Please add Input to email and password", Snackbar.LENGTH_LONG
                 ).show()
             }
+        }
+        binding.googleSignIn.setOnClickListener {
+            try {
+                authViewModel.googleSignIn(requireActivity())
+            }catch (e:Exception){
+                Snackbar.make(
+                    binding.signInFragment,
+                    "Something wrong please try again", Snackbar.LENGTH_LONG
+                ).show()
+            }
+
         }
 
         return binding.root

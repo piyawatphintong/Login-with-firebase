@@ -6,7 +6,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 class AuthRepository {
     private val firebaseAuth = FirebaseAuth.getInstance()
-
     fun signIn(email: String, password: String): LiveData<Result<User>> {
         val resultLiveData = MutableLiveData<Result<User>>()
         firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -25,9 +24,9 @@ class AuthRepository {
         return resultLiveData
     }
 
-    fun checkCurrentUser():Boolean{
+    fun checkCurrentUser(): Boolean {
         val currentUser = firebaseAuth.currentUser
-        if (currentUser !=null){
+        if (currentUser != null) {
             return true
         }
         return false
