@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.example.login_with_firebase.R
 import com.example.login_with_firebase.databinding.FragmentSignInBinding
 import com.google.android.material.snackbar.Snackbar
 import java.lang.Exception
@@ -48,7 +49,7 @@ class SignInFragment : Fragment() {
         }
         binding.googleSignIn.setOnClickListener {
             try {
-                authViewModel.googleSignIn(requireActivity())
+                authViewModel.googleSignIn(requireActivity(),getString(R.string.default_web_client_id))
             }catch (e:Exception){
                 Snackbar.make(
                     binding.signInFragment,

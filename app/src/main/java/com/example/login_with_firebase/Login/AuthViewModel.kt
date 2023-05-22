@@ -1,29 +1,28 @@
 package com.example.login_with_firebase.Login
 
 import android.app.Activity
-import android.app.Application
 import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.login_with_firebase.Provider.ResourceProvider
-import com.example.login_with_firebase.R
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseUser
 
-//TODO: probleam here cause by resourceProvider still can't fix it out
-class AuthViewModel(private val resourceProvider: ResourceProvider) : ViewModel() {
+class AuthViewModel : ViewModel() {
     private val authRepository = AuthRepository()
 
     private val _user = MutableLiveData<User?>()
     val user: MutableLiveData<User?> = _user
 
-    private val _signInResult = MutableLiveData<SignInResult>()
-    val signInResult: LiveData<SignInResult> = _signInResult
+    private val _user2 = MutableLiveData<FirebaseUser?>()
+    val user2: MutableLiveData<FirebaseUser?> = _user2
 
+    private lateinit var signInRequest: BeginSignInRequest
     fun signIn(email: String, password: String) {
         authRepository.signIn(email, password).observeForever { result ->
             if (result.isSuccess) {
@@ -35,29 +34,16 @@ class AuthViewModel(private val resourceProvider: ResourceProvider) : ViewModel(
         }
     }
 
-    fun googleSignIn(activity: Activity) {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(resourceProvider.getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        val googleSignInClient = GoogleSignIn.getClient(activity, gso)
-        val signInIntent = googleSignInClient.signInIntent
-
-        _signInResult.value = SignInResult.Start(signInIntent)
+    fun googleSignIn(activity: Activity, IdToken: String) {
+        authRepository.googleSignIn(activity, IdToken)
     }
 
     fun handleSignInResult(data: Intent?) {
-        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-        try {
-            val account = task.getResult(ApiException::class.java)
-            // Signed in successfully, handle the account
-            _signInResult.value = SignInResult.Success(account)
-        } catch (e: ApiException) {
-            // Sign-in failed, handle the exception
-            _signInResult.value = SignInResult.Failure(e)
+        authRepository.handleSignInResult(data) { firebaseUser ->
+            _user2.value = firebaseUser
         }
     }
+
 
     fun signOut() {
         authRepository.signOut()
@@ -67,10 +53,4 @@ class AuthViewModel(private val resourceProvider: ResourceProvider) : ViewModel(
     fun checkCurrentUser(): Boolean {
         return authRepository.checkCurrentUser()
     }
-}
-
-sealed class SignInResult {
-    data class Start(val signInIntent: Intent) : SignInResult()
-    data class Success(val account: GoogleSignInAccount) : SignInResult()
-    data class Failure(val exception: ApiException) : SignInResult()
 }
