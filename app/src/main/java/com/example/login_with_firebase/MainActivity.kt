@@ -1,7 +1,7 @@
 package com.example.login_with_firebase
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.example.login_with_firebase.Login.AuthViewModel
