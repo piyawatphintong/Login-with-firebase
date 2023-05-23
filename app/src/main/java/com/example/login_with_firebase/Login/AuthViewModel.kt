@@ -3,14 +3,9 @@ package com.example.login_with_firebase.Login
 import android.app.Activity
 import android.content.Intent
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseUser
 
 class AuthViewModel : ViewModel() {
@@ -23,15 +18,21 @@ class AuthViewModel : ViewModel() {
     val user2: MutableLiveData<FirebaseUser?> = _user2
 
     private lateinit var signInRequest: BeginSignInRequest
-    fun signIn(email: String, password: String) {
-        authRepository.signIn(email, password).observeForever { result ->
-            if (result.isSuccess) {
-                _user.value = result.getOrNull()
-                Log.d("Success", "Yayyyy")
-            } else {
-                // handle error
+    fun signIn(email: String, password: String): Boolean {
+        return try {
+            authRepository.signIn(email, password).observeForever { result ->
+                if (result.isSuccess) {
+                    _user.value = result.getOrNull()
+                    Log.d("Success", "Yayyyy")
+                } else {
+                    // handle error
+                }
             }
+            true
+        } catch (e: Exception) {
+            false
         }
+
     }
 
     fun googleSignIn(activity: Activity, IdToken: String) {
