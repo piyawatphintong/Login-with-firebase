@@ -2,6 +2,7 @@ package com.example.login_with_firebase.Login
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -10,9 +11,12 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class AuthRepository {
     private val firebaseAuth = FirebaseAuth.getInstance()
+    private val db = Firebase.firestore
     fun signIn(email: String, password: String): LiveData<Result<User>> {
         val resultLiveData = MutableLiveData<Result<User>>()
         firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -22,6 +26,7 @@ class AuthRepository {
                     val user = User(
                         email = firebaseUser?.email,
                         displayName = firebaseUser?.displayName,
+                        password = password,
                     )
                     resultLiveData.value = Result.success(user)
                 } else {
@@ -60,6 +65,15 @@ class AuthRepository {
             // Handle sign-in failure
             onFirebaseUserRetrieved(null)
         }
+    }
+
+    fun saveUserToFirebase(userdata: User) {
+        db.collection("user").add(userdata).addOnSuccessListener { documentReference ->
+            Log.d("documentReference", "DocumentSnapshot added with ID: ${documentReference.id}")
+        }
+            .addOnFailureListener { e ->
+                Log.w("documentReference", "Error adding document", e)
+            }
     }
 
     fun checkCurrentUser(): Boolean {

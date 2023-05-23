@@ -2,19 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/signInFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login.SignInFragment">
+    tools:context=".SignUp.SignUpFragment">
 
     <TextView
         android:id="@+id/emailText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="372dp"
+        android:layout_marginBottom="240dp"
         android:text="Email"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,13 +23,14 @@
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginBottom="240dp"
         android:autofillHints="emailAddress"
         android:hint="Somgthing@mail.com"
         android:inputType="textEmailAddress"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/emailText"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
@@ -56,43 +57,36 @@
         app:layout_constraintStart_toEndOf="@+id/passwordText"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
-    <Button
-        android:id="@+id/signInButton"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/userText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="160dp"
-        android:text="Sign In"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="44dp"
+        android:text="User name"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+
+    <EditText
+        android:id="@+id/UserEditText"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:autofillHints="name"
+        android:hint="Your user name"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/userText"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
     <Button
-        android:id="@+id/googleSignIn"
+        android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="Google SignIn"
-        app:layout_constraintBottom_toBottomOf="@+id/signInButton"
-        app:layout_constraintStart_toEndOf="@+id/signInButton" />
-
-    <Button
-        android:id="@+id/SignUpButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"
+        android:text="Submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="137dp"
-        android:layout_height="234dp"
-        android:layout_marginTop="128dp"
-        android:src="@drawable/chad"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/UserEditText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

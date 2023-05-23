@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.login_with_firebase.R
 import com.example.login_with_firebase.databinding.FragmentSignInBinding
 import com.google.android.material.snackbar.Snackbar
@@ -33,7 +35,6 @@ class SignInFragment : Fragment() {
 
         binding = FragmentSignInBinding.inflate(inflater, container, false)
         binding.signInButton.setOnClickListener {
-
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
             if (!authViewModel.signIn(email, password)) {
@@ -56,6 +57,10 @@ class SignInFragment : Fragment() {
                 ).show()
             }
 
+        }
+        binding.SignUpButton.setOnClickListener {
+            val navController = findNavController()
+            navController.navigate(R.id.signUpFragment)
         }
 
         return binding.root
